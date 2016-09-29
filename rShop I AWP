@@ -1,0 +1,132 @@
+@name rShop|AWP
+@inputs EGP:wirelink SA
+@outputs P
+@persist A
+@trigger 
+
+runOnTick(1)
+
+if(first()){
+    
+    EGP:egpClear()
+    
+
+}
+
+Price = 500 #PRECO DA ARMA, AJUSTE PARA O DESEJADO#
+
+if(~SA){
+    
+    A = A + SA    
+    
+}
+
+EGP:egpBox(1,vec2(256,256),vec2(512,512))
+EGP:egpMaterial(1,"gui/gradient_up")
+EGP:egpColor(1,vec4(255,255,255,31.875))
+
+EGP:egpText(2,"AWP",vec2(210,35))
+EGP:egpSize(2,60)
+EGP:egpColor(2,vec(25.5,25.5,25.5))
+
+EGP:egpText(3,"AWP",vec2(205,30))
+EGP:egpSize(3, 60)
+EGP:egpColor(3,vec(255,119,0))
+
+EGP:egpBox(4,vec2(270,190),vec2(450,128))
+EGP:egpMaterial(4,"vgui/gfx/vgui/awp")
+
+EGP:egpText(5,"$"+Price:toString(),vec2(195,285))
+EGP:egpSize(5,60)
+EGP:egpColor(5, vec(25.5,25.5,25.5))
+
+EGP:egpText(6,"$"+Price:toString(),vec2(190,280))
+EGP:egpSize(6,60)
+EGP:egpColor(6,vec(255,119,0))
+
+EGP:egpBox(7,vec2(256,435),vec2(300,65))
+EGP:egpSize(7,8)
+
+EGP:egpBoxOutline(8,vec2(256,435),vec2(310,70))
+EGP:egpSize(8, 8)
+EGP:egpColor(8, vec(64,64,64))
+
+EGP:egpText(9,"Comprar",vec2(175,410))
+EGP:egpSize(9,50)
+EGP:egpColor(9, vec(63.75,63.75,63.75))
+
+EGP:egpText(10,"Comprar",vec2(170,405))
+EGP:egpSize(10, 50)
+
+EGP:egpText(11,"Credito",vec2(35,40))
+EGP:egpSize(11,30)
+EGP:egpColor(11, vec(20,20,20))
+
+EGP:egpText(12,"Credito",vec2(30,35))
+EGP:egpSize(12,30)
+EGP:egpColor(12, vec(255,119,0))
+
+EGP:egpText(13,"$"+A:toString(),vec2(75-A:toString():length()*10,75)+vec2(5,5))
+EGP:egpSize(13,40)
+EGP:egpColor(13,vec(25.5,25.5,25.5))
+
+EGP:egpText(14,"$"+A:toString(),vec2(75-A:toString():length()*10,75))
+EGP:egpSize(14,40)
+EGP:egpColor(14,vec(255,127.5,0))
+
+findInSphere(entity():pos(),250)
+    
+findClipToClass("player")
+    
+User = findClosest(entity():pos())
+    
+Pos = EGP:egpPos(7)
+    
+Size = EGP:egpSize(7)/2
+
+if(inrange(EGP:egpCursor(User),Pos-Size,Pos+Size)&User:keyUse()&A >= Price&P == 0){
+    
+    A = A - Price
+    
+    P = 1
+    
+    soundPlay(1,0,"buttons/button14.wav")
+    
+    timer("SSpawn",2000)
+    
+}
+
+if(inrange(EGP:egpCursor(User),Pos-Size,Pos+Size)&(A >= Price&P == 0)){
+        
+    if(EGP:egpColor(7):y() > 112){
+        
+        EGP:egpColor(7,EGP:egpColor(7)-vec(0,0.8925,0))
+        
+        EGP:egpColor(10,EGP:egpColor(10)-vec(4,4,4))
+        
+    }
+}
+elseif(A >= Price&P == 0){ 
+
+    EGP:egpColor(7,vec(255,127.5,0)) EGP:egpColor(10,vec(255,255,255))
+        
+}
+
+if(A < Price|P == 1){
+    
+    EGP:egpColor(7,vec(127.5,127.5,127.5))
+    
+    EGP:egpColor(10,vec(255,255,255))
+   
+}
+
+if(clk("SSpawn")){P = 0 EGP:egpColor(7,vec(255,127.5,0)) EGP:egpColor(10,vec(255,255,255))}
+
+#----Creditos----#
+#[
+
+    Marci12 - DESIGN    
+
+    Puzzle Games Expert - CODE
+
+]#
